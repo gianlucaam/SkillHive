@@ -15,7 +15,9 @@ import java.io.IOException;
 
 @WebServlet("/delete-service")
 public class DeleteServiceServlet extends HttpServlet {
-    @Override
+    private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -31,7 +33,7 @@ public class DeleteServiceServlet extends HttpServlet {
             serviceId = Integer.parseInt(serviceIdStr);
         } catch (NumberFormatException e) {
             session.setAttribute("errorMessage", "Errore: ID servizio non valido.");
-            response.sendRedirect("dashboard.jsp?tab=my-services");
+            response.sendRedirect("utente/dashboard.jsp");
             return;
         }
 
@@ -44,7 +46,7 @@ public class DeleteServiceServlet extends HttpServlet {
         }
         if (service == null) {
             session.setAttribute("errorMessage", "Errore: Servizio non trovato o non autorizzato.");
-            response.sendRedirect("dashboard.jsp?tab=my-services");
+            response.sendRedirect("utente/dashboard.jsp");
             return;
         }
 
@@ -53,6 +55,6 @@ public class DeleteServiceServlet extends HttpServlet {
 
         // Imposta messaggio di successo
         session.setAttribute("successMessage", "Servizio eliminato con successo!");
-        response.sendRedirect("dashboard.jsp?tab=my-services");
+        response.sendRedirect("utente/dashboard.jsp");
     }
 }

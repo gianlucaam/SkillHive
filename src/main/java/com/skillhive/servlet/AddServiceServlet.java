@@ -5,15 +5,19 @@ import com.skillhive.model.User;
 import com.skillhive.dao.DataStub;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @WebServlet("/add-service")
+@MultipartConfig
 public class AddServiceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -34,10 +38,11 @@ public class AddServiceServlet extends HttpServlet {
             return;
         }
 
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        String priceStr = request.getParameter("price");
-        String category = request.getParameter("category");
+        // Retrieve form parameters from multipart request
+        String title = getPartAsString(request.getPart("title"));
+        String description = getPartAsString(request.getPart("description"));
+        String priceStr = getPartAsString(request.getPart("price"));
+        String category = getPartAsString(request.getPart("category"));
 
         // Validazione
         if (title == null || title.trim().isEmpty() || title.length() > 100) {
@@ -69,6 +74,17 @@ public class AddServiceServlet extends HttpServlet {
             return;
         }
 
+        // Handle file upload (optional image)
+        Part filePart = request.getPart("image");
+        String imagePath = null;
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = filePart.getSubmittedFileName();
+            // Simulate saving the file (replace with actual file storage logic)
+            imagePath = "/images/services/" + fileName; // Example path, adjust as needed
+            // In a real application, save the file to a server directory or storage
+            // Example: filePart.write("/path/to/storage/" + fileName);
+        }
+
         // Creazione del servizio
         Service service = new Service();
         service.setId(DataStub.getNextServiceId());
@@ -77,6 +93,7 @@ public class AddServiceServlet extends HttpServlet {
         service.setPrice(price);
         service.setSellerId(user.getId());
         service.setCategory(category);
+        service.setImage(imagePath); // Set image path if uploaded
 
         // Salva il servizio
         DataStub.addService(service);
@@ -87,5 +104,16 @@ public class AddServiceServlet extends HttpServlet {
         session.setAttribute("newService", service);
         session.setAttribute("successMessage", "Servizio aggiunto con successo!");
         response.sendRedirect("utente/dashboard.jsp");
+    }
+
+    // Utility method to convert Part to String
+    private String getPartAsString(Part part) throws IOException {
+        if (part == null) {
+            return null;
+        }
+        try (InputStream inputStream = part.getInputStream()) {
+            byte[] bytes = inputStream.readAllBytes();
+            return new String(bytes, "UTF-8").trim();
+        }
     }
 }
