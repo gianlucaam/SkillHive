@@ -65,19 +65,63 @@ header {
     flex-shrink: 0;
 }
 
+/* Honeycomb Logo Animation */
+@keyframes honeycomb {
+    0%, 20%, 80%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    30%, 70% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 .honeycomb {
-    display: grid;
-    grid-template-columns: repeat(4, 10px);
-    grid-gap: 2px;
-    margin-right: 10px;
+    height: 20px;
+    position: relative;
+    width: 20px;
+    transform: scale(0.6);
+    transform-origin: center left;
+    margin-right: 1rem;
 }
 
 .honeycomb div {
-    width: 10px;
+    animation: honeycomb 2.1s infinite backwards;
+    background: var(--primary);
     height: 10px;
-    background-color: var(--primary);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    margin-top: 5px;
+    position: absolute;
+    width: 20px;
 }
+
+.honeycomb div::after,
+.honeycomb div::before {
+    content: '';
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.honeycomb div::after {
+    top: -5px;
+    border-bottom: 5px solid var(--primary);
+}
+
+.honeycomb div::before {
+    bottom: -5px;
+    border-top: 5px solid var(--primary);
+}
+
+.honeycomb div:nth-child(1) { animation-delay: 0s; left: -24px; top: 0; }
+.honeycomb div:nth-child(2) { animation-delay: 0.1s; left: -12px; top: 18px; }
+.honeycomb div:nth-child(3) { animation-delay: 0.2s; left: 12px; top: 18px; }
+.honeycomb div:nth-child(4) { animation-delay: 0.3s; left: 24px; top: 0; }
+.honeycomb div:nth-child(5) { animation-delay: 0.4s; left: 12px; top: -18px; }
+.honeycomb div:nth-child(6) { animation-delay: 0.5s; left: -12px; top: -18px; }
+.honeycomb div:nth-child(7) { animation-delay: 0.6s; left: 0; top: 0; }
 
 .search-bar {
     flex: 1;

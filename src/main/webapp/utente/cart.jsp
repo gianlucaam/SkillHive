@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="../css/cart.css?v=<%= cacheBuster %>">
 </head>
 <body>
-    <!-- Header -->
+     <!-- Header -->
     <header>
         <div class="container header-content">
             <a href="dashboard.jsp" class="logo">
@@ -40,11 +40,7 @@
                 </div>
                 <span>SkillHive</span>
             </a>
-            
-            <!-- Barra di ricerca -->
-            <div class="search-bar">
-                <input type="text" placeholder="Search for services..." id="search-input" oninput="searchServices()">
-            </div>
+           
             
             <!-- Desktop Nav -->
             <nav class="desktop-nav">
