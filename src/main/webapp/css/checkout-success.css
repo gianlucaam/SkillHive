@@ -1,0 +1,23 @@
+/* Checkout Success Section */
+.checkout-success-section {
+  padding: 50px 20px;
+  background-color: var(--neutral-bg);
+  text-align: center;
+}
+
+.checkout-success-section h2 {
+  margin-bottom: 16px;
+}
+
+.success-message {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .checkout-success-section {
+    padding: 30px 15px;
+  }
+}
