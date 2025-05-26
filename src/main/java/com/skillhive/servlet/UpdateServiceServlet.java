@@ -1,9 +1,7 @@
 package com.skillhive.servlet;
 
-import com.skillhive.model.Service;
-import com.skillhive.model.User;
-import com.skillhive.dao.DataStub;
-
+import java.io.IOException;
+import java.io.InputStream;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,21 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.skillhive.dao.DataStub;
+import com.skillhive.model.Service;
+import com.skillhive.model.User;
 
-@WebServlet("/add-service")
+@WebServlet("/update-service")
 @MultipartConfig
-public class AddServiceServlet extends HttpServlet {
+public class UpdateServiceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Metodo temporaneo per debug
-        response.setContentType("text/plain");
-        response.getWriter().write("AddServiceServlet is running!");
-    }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -38,7 +30,8 @@ public class AddServiceServlet extends HttpServlet {
             return;
         }
 
-        // Retrieve form parameters from multipart request
+        // Recupera i parametri dal form multipart
+        String serviceIdStr = getPartAsString(request.getPart("serviceId"));
         String title = getPartAsString(request.getPart("title"));
         String description = getPartAsString(request.getPart("description"));
         String priceStr = getPartAsString(request.getPart("price"));
@@ -46,6 +39,31 @@ public class AddServiceServlet extends HttpServlet {
         String deliveryTimeStr = getPartAsString(request.getPart("deliveryTime"));
 
         // Validazione
+        int serviceId;
+        try {
+            serviceId = Integer.parseInt(serviceIdStr);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "ID servizio non valido.");
+            request.getRequestDispatcher("utente/add-service.jsp").forward(request, response);
+            return;
+        }
+
+        // Recupera il servizio esistente
+        Service service = null;
+        for (Service s : DataStub.getServices()) {
+            if (s.getId() == serviceId && s.getSellerId() == user.getId()) {
+                service = s;
+                break;
+            }
+        }
+
+        if (service == null) {
+            request.setAttribute("errorMessage", "Servizio non trovato o non hai i permessi per modificarlo.");
+            request.getRequestDispatcher("utente/add-service.jsp").forward(request, response);
+            return;
+        }
+
+        // Validazione degli altri campi
         if (title == null || title.trim().isEmpty() || title.length() > 100) {
             request.setAttribute("errorMessage", "Errore: Titolo non valido o troppo lungo.");
             request.getRequestDispatcher("utente/add-service.jsp").forward(request, response);
@@ -56,6 +74,7 @@ public class AddServiceServlet extends HttpServlet {
             request.getRequestDispatcher("utente/add-service.jsp").forward(request, response);
             return;
         }
+        
         double price;
         try {
             price = Double.parseDouble(priceStr);
@@ -90,9 +109,8 @@ public class AddServiceServlet extends HttpServlet {
             return;
         }
 
-        // Handle file upload (optional image)
+        // Gestione upload immagine (se presente)
         Part filePart = request.getPart("image");
-        String imagePath = null;
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
             // Crea percorso per salvare l'immagine
@@ -107,33 +125,25 @@ public class AddServiceServlet extends HttpServlet {
             // Salva il file
             filePart.write(uploadPath + fileName);
             
-            // Percorso relativo per l'accesso tramite web
-            imagePath = "images/services/" + fileName;
+            // Aggiorna il percorso dell'immagine nel servizio
+            service.setImage("images/services/" + fileName);
         }
 
-        // Creazione del servizio
-        Service service = new Service();
-        service.setId(DataStub.getNextServiceId());
+        // Aggiorna i dati del servizio
         service.setTitle(title);
         service.setDescription(description);
         service.setPrice(price);
-        service.setSellerId(user.getId());
         service.setCategory(category);
         service.setDeliveryTime(deliveryTime);
-        service.setImage(imagePath); // Set image path if uploaded
 
-        // Salva il servizio
-        DataStub.addService(service);
-        System.out.println("Servizio aggiunto: " + service.getTitle() + ", ID: " + service.getId());
-        System.out.println("Totale servizi in DataStub: " + DataStub.getServices().size());
-
-        // Memorizza il servizio in sessione
-        session.setAttribute("newService", service);
-        session.setAttribute("successMessage", "Servizio aggiunto con successo!");
+        System.out.println("Servizio aggiornato: " + service.getTitle() + ", ID: " + service.getId());
+        
+        // Redirect alla dashboard con messaggio di successo
+        session.setAttribute("successMessage", "Servizio aggiornato con successo!");
         response.sendRedirect("utente/sales-dashboard.jsp");
     }
 
-    // Utility method to convert Part to String
+    // Metodo utility per convertire Part in String
     private String getPartAsString(Part part) throws IOException {
         if (part == null) {
             return null;

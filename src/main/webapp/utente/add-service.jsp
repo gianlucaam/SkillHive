@@ -13,6 +13,11 @@
 
     // Dati del servizio (per modifica)
     String serviceId = request.getParameter("serviceId");
+    // Controlla anche il parametro "id" che viene usato nel link dalla sales-dashboard
+    if (serviceId == null) {
+        serviceId = request.getParameter("id");
+    }
+    
     Service service = null;
     if (serviceId != null) {
         List<Service> allServices = DataStub.getServices();
@@ -124,6 +129,10 @@
                 <div class="form-group">
                     <label for="price">Prezzo (€)</label>
                     <input type="number" id="price" name="price" class="input" placeholder="Es. 50" step="0.01" value="<%= service != null ? String.format("%.2f", service.getPrice()) : "" %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryTime">Giorni di consegna</label>
+                    <input type="number" id="deliveryTime" name="deliveryTime" class="input" placeholder="Es. 3" min="1" value="<%= service != null ? service.getDeliveryTime() : "" %>" required>
                 </div>
                 <div class="form-group">
                     <label for="image">Immagine del Servizio</label>

@@ -1,12 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.skillhive.model.User" %>
+<% 
+    // Verifica sessione
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("../login.jsp");
+        return;
+    }
+    
+    // Genera un cache buster per i file statici
+    String cacheBuster = String.valueOf(System.currentTimeMillis());
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Success - SkillHive</title>
-    <link rel="stylesheet" href="css/common.css">
-<link rel="stylesheet" href="css/checkout-success.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css?v=<%= cacheBuster %>">
+    <link rel="stylesheet" href="../css/checkout-success.css?v=<%= cacheBuster %>">
 </head>
 <body>
     <!-- Header -->
@@ -35,8 +48,15 @@
     <!-- Checkout Success Section -->
     <section class="checkout-success-section">
         <div class="container">
+            <div class="success-icon">✓</div>
             <h2>Thank You for Your Purchase!</h2>
-            <p class="success-message">Your order has been successfully placed. You'll receive a confirmation soon.</p>
+            <p class="success-message">Your order has been successfully placed. You'll receive a confirmation email shortly with all the details.</p>
+            
+            <div class="order-info">
+                <p>An order confirmation has been sent to your email address.</p>
+                <p>You can view your order details in the "My Orders" section of your profile.</p>
+            </div>
+            
             <a href="dashboard.jsp" class="cta">Continue Shopping</a>
         </div>
     </section>
@@ -91,7 +111,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 SkillHive. All rights reserved.</p>
+            <p>&copy; 2025 SkillHive. All rights reserved.</p>
         </div>
     </footer>
 </body>

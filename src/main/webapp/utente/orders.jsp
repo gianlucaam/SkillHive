@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.skillhive.model.Service, com.skillhive.model.User" %>
+<%@ page import="java.util.List, java.text.SimpleDateFormat, com.skillhive.model.Order, com.skillhive.model.Service, com.skillhive.model.User, com.skillhive.dao.DataStub" %>
 <% 
     // Verifica sessione
     User user = (User) session.getAttribute("user");
@@ -10,22 +10,26 @@
 
     // Genera un cache buster per i file statici
     String cacheBuster = String.valueOf(System.currentTimeMillis());
-
-    // Carica il carrello dalla sessione
-    List<Service> cart = (List<Service>) session.getAttribute("cart");
-    double total = 0.0;
+    
+    // Recupera gli ordini dell'utente
+    List<Order> userOrders = DataStub.getOrdersByUserId(user.getId());
+    
+    // Formattatore per le date
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart - SkillHive</title>
+    <title>My Orders - SkillHive</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/cart.css?v=<%= cacheBuster %>">
+    <link rel="stylesheet" href="../css/dashboard.css?v=<%= cacheBuster %>">
+    <link rel="stylesheet" href="../css/orders.css?v=<%= cacheBuster %>">
+    <script src="../js/messages.js" defer></script>
 </head>
 <body>
-     <!-- Header -->
+    <!-- Header -->
     <header>
         <div class="container header-content">
             <a href="dashboard.jsp" class="logo">
@@ -40,10 +44,15 @@
                 </div>
                 <span>SkillHive</span>
             </a>
-           
             
             <!-- Desktop Nav -->
             <nav class="desktop-nav">
+                <a href="cart.jsp" class="cart-icon">
+                    <svg class="icon-cart" viewBox="0 0 24.38 30.52" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
+            			<title>icon-cart</title>
+            			<path transform="translate(-3.62 -0.85)" fill='white' d="M28,27.3,26.24,7.51a.75.75,0,0,0-.76-.69h-3.7a6,6,0,0,0-12,0H6.13a.76.76,0,0,0-.76.69L3.62,27.3v.07a4.29,4.29,0,0,0,4.52,4H23.48a4.29,4.29,0,0,0,4.52-4ZM15.81,2.37a4.47,4.47,0,0,1,4.46,4.45H11.35a4.47,4.47,0,0,1,4.46-4.45Zm7.67,27.48H8.13a2.79,2.79,0,0,1-3-2.45L6.83,8.34h3V11a.76.76,0,0,0,1.52,0V8.34h8.92V11a.76.76,0,0,0,1.52,0V8.34h3L26.48,27.4a2.79,2.79,0,0,1-3,2.44Zm0,0"></path>
+          			</svg>
+                </a>
                 <div class="user-menu">
                     <span class="user-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" class="user-icon-svg">
@@ -53,6 +62,7 @@
                     <span><%= user.getUsername() %></span>
                     <div class="user-menu-dropdown">
                         <a href="profile.jsp">My Profile</a>
+                        <a href="orders.jsp">My Orders</a>
                         <a href="../logout">Logout</a>
                     </div>
                 </div>
@@ -65,56 +75,59 @@
         </div>
         <!-- Mobile Nav -->
         <nav class="mobile-nav">
+            <a href="cart.jsp" class="cart-icon">
+                <svg class="icon-cart" viewBox="0 0 24.38 30.52" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
+                    <title>icon-cart</title>
+                    <path transform="translate(-3.62 -0.85)" fill='white' d="M28,27.3,26.24,7.51a.75.75,0,0,0-.76-.69h-3.7a6,6,0,0,0-12,0H6.13a.76.76,0,0,0-.76.69L3.62,27.3v.07a4.29,4.29,0,0,0,4.52,4H23.48a4.29,4.29,0,0,0,4.52-4ZM15.81,2.37a4.47,4.47,0,0,1,4.46,4.45H11.35a4.47,4.47,0,0,1,4.46-4.45Zm7.67,27.48H8.13a2.79,2.79,0,0,1-3-2.45L6.83,8.34h3V11a.76.76,0,0,0,1.52,0V8.34h8.92V11a.76.76,0,0,0,1.52,0V8.34h3L26.48,27.4a2.79,2.79,0,0,1-3,2.44Zm0,0"></path>
+                </svg>
+            </a>
             <a href="profile.jsp">My Profile</a>
+            <a href="orders.jsp">My Orders</a>
             <a href="../logout" class="logout-btn">Logout</a>
         </nav>
     </header>
 
-    <!-- Cart Section -->
-    <section class="cart-section">
+    <!-- Main Content -->
+    <section class="profile-section">
         <div class="container">
-            <h2>Your Cart</h2>
-            <%
-                if (cart == null || cart.isEmpty()) {
-            %>
-                <div class="empty-cart-container">
-                    <svg class="empty-cart-icon" viewBox="0 0 24.38 30.52" height="64px" width="64px" xmlns="http://www.w3.org/2000/svg">
-                        <title>icon-cart</title>
-                        <path transform="translate(-3.62 -0.85)" fill="currentColor" d="M28,27.3,26.24,7.51a.75.75,0,0,0-.76-.69h-3.7a6,6,0,0,0-12,0H6.13a.76.76,0,0,0-.76.69L3.62,27.3v.07a4.29,4.29,0,0,0,4.52,4H23.48a4.29,4.29,0,0,0,4.52-4ZM15.81,2.37a4.47,4.47,0,0,1,4.46,4.45H11.35a4.47,4.47,0,0,1,4.46-4.45Zm7.67,27.48H8.13a2.79,2.79,0,0,1-3-2.45L6.83,8.34h3V11a.76.76,0,0,0,1.52,0V8.34h8.92V11a.76.76,0,0,0,1.52,0V8.34h3L26.48,27.4a2.79,2.79,0,0,1-3,2.44Zm0,0"></path>
-                    </svg>
-                    <p class="empty-cart">Your cart is empty.</p>
-                    <a href="dashboard.jsp" class="cta">Explore Services</a>
-                </div>
-            <%
-                } else {
-            %>
-                <div class="cart-items">
-                    <% for (Service service : cart) { 
-                        total += service.getPrice();
-                    %>
-                        <div class="cart-item">
-                            <div class="cart-item-image">
-                                <img src="<%= service.getImage() != null && !service.getImage().isEmpty() ? service.getImage() : "https://via.placeholder.com/100x100?text=Service+Image+Not+Available" %>" alt="<%= service.getTitle() %>">
+            <h1 class="page-title">My Orders</h1>
+            
+            <div class="profile-content">
+                <% if (userOrders != null && !userOrders.isEmpty()) { %>
+                    <div class="orders-grid">
+                        <% for (Order order : userOrders) { %>
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <h3>Order #<%= order.getId() %></h3>
+                                    <span class="order-date"><%= dateFormat.format(order.getOrderDate()) %></span>
+                                </div>
+                                <div class="order-details">
+                                    <p><strong>Shipping Address:</strong> <%= order.getShippingAddress() %></p>
+                                    <p><strong>Payment Method:</strong> <%= order.getPaymentMethod() %></p>
+                                    <p><strong>Total:</strong> €<%= String.format("%.2f", order.getTotal()) %></p>
+                                    <p class="status">Status: <%= order.getStatus() %></p>
+                                </div>
+                                <div class="order-items">
+                                    <h4>Items:</h4>
+                                    <ul>
+                                    <% for (Service service : order.getServices()) { %>
+                                        <li>
+                                            <%= service.getTitle() %> - €<%= String.format("%.2f", service.getPrice()) %>
+                                        </li>
+                                    <% } %>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="cart-item-details">
-                                <h3><%= service.getTitle() %></h3>
-                                <p>Seller ID: <%= service.getSellerId() %></p>
-                                <p class="price">$<%= String.format("%.2f", service.getPrice()) %></p>
-                            </div>
-                            <form action="../remove-from-cart" method="post" class="cart-item-actions">
-                                <input type="hidden" name="serviceId" value="<%= service.getId() %>">
-                                <button type="submit" class="remove-btn">Remove</button>
-                            </form>
-                        </div>
-                    <% } %>
-                </div>
-                <div class="cart-summary">
-                    <h3>Total: $<%= String.format("%.2f", total) %></h3>
-                    <a href="checkout.jsp" class="checkout-btn">Proceed to Checkout</a>
-                </div>
-            <%
-                }
-            %>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <div class="no-orders-message">
+                        <p>You haven't placed any orders yet.</p>
+                        <p>Explore our services and make your first purchase!</p>
+                        <a href="dashboard.jsp" class="explore-btn">Explore Services</a>
+                    </div>
+                <% } %>
+            </div>
         </div>
     </section>
 
@@ -182,31 +195,15 @@
 
     <!-- JavaScript -->
     <script>
-        // Toggle hamburger menu
         document.querySelector('.hamburger-menu').addEventListener('click', function() {
             this.classList.toggle('active');
             document.querySelector('.mobile-nav').classList.toggle('active');
-            document.body.classList.toggle('menu-open');
         });
 
-        // Toggle user menu dropdown
-        document.querySelector('.user-menu').addEventListener('click', function(e) {
-            e.stopPropagation();
-            document.querySelector('.user-menu-dropdown').classList.toggle('active');
+        document.querySelector('.user-menu').addEventListener('click', function() {
+            var dropdown = document.querySelector('.user-menu-dropdown');
+            dropdown.classList.toggle('active');
         });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!document.querySelector('.user-menu').contains(e.target)) {
-                document.querySelector('.user-menu-dropdown').classList.remove('active');
-            }
-        });
-
-        // Funzione di ricerca (corretta per evitare l'errore EL)
-        function searchServices() {
-            var searchInput = document.getElementById("search-input").value.toLowerCase();
-            window.location.href = "dashboard.jsp?search=" + encodeURIComponent(searchInput);
-        }
     </script>
 </body>
 </html>

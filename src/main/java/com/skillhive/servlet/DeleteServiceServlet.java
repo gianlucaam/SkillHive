@@ -17,7 +17,7 @@ import java.io.IOException;
 public class DeleteServiceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-	@Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -28,33 +28,31 @@ public class DeleteServiceServlet extends HttpServlet {
         }
 
         String serviceIdStr = request.getParameter("serviceId");
+        
+        // Debug: log del parametro ricevuto
+        System.out.println("DeleteServiceServlet - ServiceID ricevuto: " + serviceIdStr);
+        
         int serviceId;
         try {
             serviceId = Integer.parseInt(serviceIdStr);
         } catch (NumberFormatException e) {
+            System.out.println("DeleteServiceServlet - Errore parsing ID: " + e.getMessage());
             session.setAttribute("errorMessage", "Errore: ID servizio non valido.");
-            response.sendRedirect("utente/dashboard.jsp");
+            response.sendRedirect("utente/sales-dashboard.jsp");
             return;
         }
 
-        Service service = null;
-        for (Service s : DataStub.getServices()) {
-            if (s.getId() == serviceId && s.getSellerId() == user.getId()) {
-                service = s;
-                break;
-            }
+        // Utilizza il metodo centralizzato in DataStub per rimuovere il servizio
+        boolean removed = DataStub.removeService(serviceId, user.getId());
+        
+        if (removed) {
+            // Imposta messaggio di successo
+            session.setAttribute("successMessage", "Servizio eliminato con successo!");
+        } else {
+            System.out.println("DeleteServiceServlet - Errore durante l'eliminazione del servizio.");
+            session.setAttribute("errorMessage", "Errore durante l'eliminazione del servizio.");
         }
-        if (service == null) {
-            session.setAttribute("errorMessage", "Errore: Servizio non trovato o non autorizzato.");
-            response.sendRedirect("utente/dashboard.jsp");
-            return;
-        }
-
-        // Rimuovi il servizio
-        DataStub.getServices().remove(service);
-
-        // Imposta messaggio di successo
-        session.setAttribute("successMessage", "Servizio eliminato con successo!");
-        response.sendRedirect("utente/dashboard.jsp");
+        
+        response.sendRedirect("utente/sales-dashboard.jsp");
     }
 }

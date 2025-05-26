@@ -1,5 +1,6 @@
 package com.skillhive.dao;
 
+import com.skillhive.model.Order;
 import com.skillhive.model.Service;
 import com.skillhive.model.User;
 
@@ -9,7 +10,9 @@ import java.util.List;
 public class DataStub {
     private static List<User> users = new ArrayList<>();
     private static List<Service> services = new ArrayList<>();
+    private static List<Order> orders = new ArrayList<>();
     private static int nextServiceId = 1;
+    private static long nextOrderId = 1;
 
     // Inizializzazione statica dei dati
     static {
@@ -17,8 +20,8 @@ public class DataStub {
         users.add(new User());
         users.get(0).setId(1);
         users.get(0).setUsername("TechWizard");
-        users.get(0).setEmail("techwizard@skillhive.com");
-        users.get(0).setPassword("password123");
+        users.get(0).setEmail("u1@example.com");
+        users.get(0).setPassword("123");
 
         users.add(new User());
         users.get(1).setId(2);
@@ -110,5 +113,117 @@ public class DataStub {
             }
         }
         return null;
+    }
+    
+    // Metodi per la gestione degli ordini
+    public static List<Order> getOrders() {
+        return new ArrayList<>(orders);
+    }
+    
+    public static void addOrder(Order order) {
+        order.setId(nextOrderId++);
+        orders.add(order);
+    }
+    
+    public static Order getOrderById(long id) {
+        for (Order order : orders) {
+            if (order.getId() == id) {
+                return order;
+            }
+        }
+        return null;
+    }
+    
+    public static List<Order> getOrdersByUserId(long userId) {
+        List<Order> userOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getUserId() == userId) {
+                userOrders.add(order);
+            }
+        }
+        return userOrders;
+    }
+    
+    public static List<Service> getServicesBySellerId(int sellerId) {
+        List<Service> sellerServices = new ArrayList<>();
+        for (Service service : services) {
+            if (service.getSellerId() == sellerId) {
+                sellerServices.add(service);
+            }
+        }
+        return sellerServices;
+    }
+
+    /**
+     * Rimuove un servizio dall'elenco dei servizi
+     * @param serviceId ID del servizio da rimuovere
+     * @param sellerId ID del venditore (per sicurezza)
+     * @return true se il servizio è stato rimosso, false altrimenti
+     */
+    public static boolean removeService(int serviceId, int sellerId) {
+        System.out.println("DataStub.removeService - Tentativo di rimozione servizio: ID=" + serviceId + ", SellerId=" + sellerId);
+        
+        // Trova il servizio
+        Service serviceToRemove = null;
+        for (Service s : services) {
+            if (s.getId() == serviceId && s.getSellerId() == sellerId) {
+                serviceToRemove = s;
+                break;
+            }
+        }
+        
+        // Se non trovato, ritorna false
+        if (serviceToRemove == null) {
+            System.out.println("DataStub.removeService - Servizio non trovato o non autorizzato");
+            return false;
+        }
+        
+        // Rimuovi il servizio
+        boolean removed = services.remove(serviceToRemove);
+        System.out.println("DataStub.removeService - Servizio rimosso: " + removed);
+        
+        // Se rimosso, aggiorna anche gli ordini
+        if (removed) {
+            int ordersUpdated = 0;
+            int ordersRemoved = 0;
+            
+            // Lista di ordini da rimuovere
+            List<Order> ordersToRemove = new ArrayList<>();
+            
+            for (Order order : orders) {
+                List<Service> orderServices = order.getServices();
+                boolean serviceInOrder = false;
+                
+                // Rimuovi il servizio dalla lista dei servizi dell'ordine
+                for (int i = 0; i < orderServices.size(); i++) {
+                    Service s = orderServices.get(i);
+                    if (s.getId() == serviceId) {
+                        serviceInOrder = true;
+                        orderServices.remove(i);
+                        // Aggiorna il totale dell'ordine
+                        order.setTotal(order.getTotal() - serviceToRemove.getPrice());
+                        i--; // Aggiusta l'indice dopo la rimozione
+                    }
+                }
+                
+                if (serviceInOrder) {
+                    ordersUpdated++;
+                    // Se l'ordine è vuoto, aggiungilo alla lista di quelli da rimuovere
+                    if (orderServices.isEmpty()) {
+                        ordersToRemove.add(order);
+                    }
+                }
+            }
+            
+            // Rimuovi gli ordini vuoti
+            if (!ordersToRemove.isEmpty()) {
+                ordersRemoved = ordersToRemove.size();
+                orders.removeAll(ordersToRemove);
+            }
+            
+            System.out.println("DataStub.removeService - Ordini aggiornati: " + ordersUpdated + ", Ordini rimossi: " + ordersRemoved);
+        }
+        
+        return removed;
     }
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, java.util.ArrayList, com.skillhive.model.Service, com.skillhive.model.User, com.skillhive.dao.DataStub" %>
+<%@ page import="java.util.List, java.util.ArrayList, java.text.SimpleDateFormat, com.skillhive.model.Order, com.skillhive.model.Service, com.skillhive.model.User, com.skillhive.dao.DataStub" %>
 <% 
     // Imposta intestazioni HTTP per disabilitare la cache
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
@@ -28,6 +28,12 @@
     if (cart == null) {
         cart = new ArrayList<>();
     }
+    
+    // Recupera gli ordini dell'utente
+    List<Order> userOrders = DataStub.getOrdersByUserId(user.getId());
+    
+    // Formattatore per le date
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     // Tab attivo
     String activeTab = request.getParameter("tab");
@@ -86,6 +92,7 @@
                     <span><%= user.getUsername() %></span>
                     <div class="user-menu-dropdown">
                         <a href="profile.jsp">My Profile</a>
+                        <a href="orders.jsp">My Orders</a>
                         <a href="../logout">Logout</a>
                     </div>
                 </div>
@@ -105,6 +112,7 @@
           			</svg>
                 </a>
             <a href="profile.jsp">My Profile</a>
+            <a href="orders.jsp">My Orders</a>
             <a href="../logout" class="logout-btn">Logout</a>
         </nav>
     </header>
@@ -175,8 +183,7 @@
         <div class="container">
             <div class="dashboard-tabs">
                 <button class="tab-button <%= activeTab.equals("explore-services") ? "active" : "" %>" onclick="openTab(event, 'explore-services')">Explore Services</button>
-                <button class="tab-button <%= activeTab.equals("my-services") ? "active" : "" %>" onclick="openTab(event, 'my-services')">My Services</button>
-                <button class="tab-button <%= activeTab.equals("my-orders") ? "active" : "" %>" onclick="openTab(event, 'my-orders')">My Orders</button>
+                <a href="sales-dashboard.jsp" class="tab-button">Sales Dashboard</a>
             </div>
 
             <!-- Explore Services Tab -->
@@ -216,7 +223,6 @@
                     <% 
                         if (allServices != null && !allServices.isEmpty()) {
                             for (Service service : allServices) {
-                                if (service.getSellerId() != user.getId()) {
                     %>
                         <div class="service-card" data-category="<%= service.getCategory() %>">
                             <div class="service-image-wrapper">
@@ -250,96 +256,10 @@
                             </div>
                         </div>
                     <% 
-                                }
                             }
                         } else {
                     %>
                         <p class="error-message">No services available.</p>
-                    <% } %>
-                </div>
-            </div>
-
-            <!-- My Services Tab -->
-            <div id="my-services" class="tab-content <%= activeTab.equals("my-services") ? "active" : "" %>">
-                <div class="service-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Total Services Published:</span>
-                        <span class="stat-number"><%= userServices != null ? userServices.size() : 0 %></span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Total Earnings:</span>
-                        <span class="stat-number">$<%= userServices != null ? String.format("%.2f", userServices.stream().mapToDouble(Service::getPrice).sum()) : "0.00" %></span>
-                    </div>
-                    <div class="stat-item">
-                        <a href="add-service.jsp" class="cta">Add New Service</a>
-                    </div>
-                </div>
-                <div class="services-grid">
-                    <% 
-                        if (userServices != null && !userServices.isEmpty()) {
-                            for (Service service : userServices) {
-                    %>
-                        <div class="service-card">
-                            <div class="service-image-wrapper">
-                                <img src="https://via.placeholder.com/300x180?text=Service+<%= service.getId() %>" alt="<%= service.getTitle() %>">
-                            </div>
-                            <div class="service-content">
-                                <h3><%= service.getTitle() %></h3>
-                                <p class="service-description"><%= service.getDescription() %></p>
-                                <div class="service-footer">
-                                    <span class="price">$<%= String.format("%.2f", service.getPrice()) %></span>
-                                </div>
-                                <div class="service-actions">
-                                    <a href="add-service.jsp?serviceId=<%= service.getId() %>" class="edit-btn">Edit</a>
-                                    <form action="../delete-service" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare questo servizio?');">
-                                        <input type="hidden" name="serviceId" value="<%= service.getId() %>">
-                                        <button type="submit" class="delete-btn">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    <% 
-                            }
-                        } else {
-                    %>
-                        <p class="error-message">You haven't added any services yet.</p>
-                    <% } %>
-                </div>
-            </div>
-
-            <!-- My Orders Tab -->
-            <div id="my-orders" class="tab-content <%= activeTab.equals("my-orders") ? "active" : "" %>">
-                <div class="order-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Active Orders:</span>
-                        <span class="stat-number"><%= cart != null ? cart.size() : 0 %></span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Total Spent:</span>
-                        <span class="stat-number">$<%= cart != null ? String.format("%.2f", cart.stream().mapToDouble(Service::getPrice).sum()) : "0.00" %></span>
-                    </div>
-                </div>
-                <div class="orders-grid">
-                    <% 
-                        if (cart != null && !cart.isEmpty()) {
-                            for (Service service : cart) {
-                    %>
-                        <div class="order-card">
-                            <div class="order-details">
-                                <h3><%= service.getTitle() %></h3>
-                                <p>Seller ID: <%= service.getSellerId() %></p>
-                                <p class="price">$<%= String.format("%.2f", service.getPrice()) %></p>
-                                <p class="status">Status: In Progress</p>
-                            </div>
-                            <div class="order-actions">
-                                <a href="chat.jsp?sellerId=<%= service.getSellerId() %>" class="chat-btn">Chat with Seller</a>
-                            </div>
-                        </div>
-                    <% 
-                            }
-                        } else {
-                    %>
-                        <p class="error-message">You have no orders yet.</p>
                     <% } %>
                 </div>
             </div>
@@ -404,7 +324,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 SkillHive. All rights reserved.</p>
+            <p>&copy; 2025 SkillHive. All rights reserved.</p>
         </div>
     </footer>
 
