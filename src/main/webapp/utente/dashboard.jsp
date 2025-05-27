@@ -93,6 +93,9 @@
                     <div class="user-menu-dropdown">
                         <a href="profile.jsp">My Profile</a>
                         <a href="orders.jsp">My Orders</a>
+                        <% if (user.isAdmin()) { %>
+                        <a href="${pageContext.request.contextPath}/admin/support">Admin Panel</a>
+                        <% } %>
                         <a href="../logout">Logout</a>
                     </div>
                 </div>
@@ -113,6 +116,9 @@
                 </a>
             <a href="profile.jsp">My Profile</a>
             <a href="orders.jsp">My Orders</a>
+            <% if (user.isAdmin()) { %>
+            <a href="${pageContext.request.contextPath}/admin/support">Admin Panel</a>
+            <% } %>
             <a href="../logout" class="logout-btn">Logout</a>
         </nav>
     </header>

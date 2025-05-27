@@ -1,10 +1,14 @@
 package com.skillhive.model;
 
+import java.util.Date;
+
 public class User {
     private int id;
     private String username;
     private String email;
     private String password;
+    private String role; // Role can be 'user' or 'admin'
+    private Date registrationDate;
 
     // Getter e Setter
     public int getId() {
@@ -37,5 +41,25 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getRole() {
+        return role;
+    }
+    
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    public boolean isAdmin() {
+        return "admin".equals(role);
+    }
+    
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+    
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

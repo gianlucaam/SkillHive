@@ -9,9 +9,11 @@ public class Service {
     private String category;
     private String image;
     private int deliveryTime;
+    private String status; // pending, approved, rejected
 
     // Costruttore senza parametri
     public Service() {
+        this.status = "pending"; // Default status for new services
     }
 
     // Costruttore con parametri
@@ -24,6 +26,7 @@ public class Service {
         this.category = category;
         this.image = image;
         this.deliveryTime = deliveryTime;
+        this.status = "approved"; // Default status for predefined services
     }
 
     // Getter e Setter
@@ -89,5 +92,25 @@ public class Service {
 
     public void setDeliveryTime(int deliveryTime) {
         this.deliveryTime = deliveryTime;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public boolean isPending() {
+        return "pending".equals(status);
+    }
+    
+    public boolean isApproved() {
+        return "approved".equals(status);
+    }
+    
+    public boolean isRejected() {
+        return "rejected".equals(status);
     }
 }

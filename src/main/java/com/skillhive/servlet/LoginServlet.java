@@ -37,6 +37,11 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("user", user);
         session.setAttribute("successMessage", "Login effettuato con successo! Benvenuto, " + user.getUsername() + "!");
 
-        response.sendRedirect("utente/dashboard.jsp");
+        // Redirect to admin panel if user is admin, otherwise to user dashboard
+        if (user.isAdmin()) {
+            response.sendRedirect("admin/services");
+        } else {
+            response.sendRedirect("utente/dashboard.jsp");
+        }
     }
 }
