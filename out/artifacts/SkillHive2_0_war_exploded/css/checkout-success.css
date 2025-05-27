@@ -1,0 +1,117 @@
+:root {
+    --primary: #a259ff;
+    --primary-dark: #7f3bff;
+    --background-dark: #2b2b2b;
+    --text-dark: #ffffff;
+    --text-muted: #858584;
+    --card-bg: #3b3b3b;
+    --card-border: #4a4a4a;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.4);
+    --neutral-bg: #2b2b2b;
+    --footer-bg: #3b3b3b;
+}
+
+/* Checkout Success Section */
+.checkout-success-section {
+    padding: 120px 0 60px;
+    background-color: var(--neutral-bg);
+    text-align: center;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkout-success-section .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
+}
+
+.checkout-success-section h2 {
+    margin-bottom: 20px;
+    color: var(--primary);
+    font-family: 'Space Mono', monospace;
+    font-size: 1.8rem;
+}
+
+.success-message {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.success-icon {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(162, 89, 255, 0.2);
+    border-radius: 50%;
+    margin-bottom: 24px;
+    line-height: 80px;
+    font-size: 40px;
+    color: var(--primary);
+}
+
+.cta {
+    display: inline-block;
+    background-color: var(--primary);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.cta:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+/* Order Info */
+.order-info {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: rgba(162, 89, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.order-info p {
+    margin: 8px 0;
+    color: var(--text-dark);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .checkout-success-section {
+        padding: 80px 15px 40px;
+    }
+    
+    .checkout-success-section .container {
+        padding: 30px 20px;
+    }
+    
+    .checkout-success-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 30px;
+        margin-bottom: 16px;
+    }
+}

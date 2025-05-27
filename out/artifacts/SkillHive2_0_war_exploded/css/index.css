@@ -1,0 +1,1435 @@
+/* Definizione delle variabili CSS */
+:root {
+    --primary: #a259ff;
+    --primary-dark: #8b3dff;
+    --background-dark: #2b2b2b;
+    --card-background: #3b3b3b;
+    --text-light: #fff;
+    --text-muted: #ccc;
+    --text-secondary: #858584;
+}
+
+/* Reset di base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Contenitore principale */
+.container {
+    max-width: 1200px; /* Ridotto da 1280px per più spazio laterale */
+    margin: 0 auto;
+    padding: 0 60px; /* Aumentato per desktop */
+}
+
+/* Header Styles */
+header {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.logo:hover {
+    color: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: var(--primary);
+    transition: color 0.3s ease;
+}
+
+.signup-btn {
+    background-color: var(--primary);
+    border-radius: 20px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.signup-btn img {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    padding: 80px 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.hero-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}
+
+.hero p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}
+
+.get-started-btn {
+    background-color: var(--primary);
+    border-radius: 20px;
+    padding: 12px 30px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.get-started-btn img {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.stats {
+	padding-top: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.stat {
+    min-width: 100px;
+}
+
+.stat h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.stat p {
+    font-size: 16px;
+}
+
+.hero-image {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.hero-image-caption {
+    background-color: var(--card-background);
+    padding: 25px; /* Aumentato per più spazio interno */
+    border-radius: 0 0 20px 20px;
+}
+
+.hero-image-caption h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.creator {
+    display: flex;
+    align-items: center;
+}
+
+.creator img {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+/* Trending Section */
+.trending {
+    padding: 80px 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+}
+
+.section-title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 50px; /* Aumentato per più spazio */
+    text-transform: capitalize;
+}
+
+.trending-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Aumentato minmax per carte più larghe */
+    gap: 50px; /* Aumentato per distanziare le carte */
+}
+
+.trending-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.trending-primary {
+    width: 100%;
+    height: 300px; /* Aumentato per bilanciare */
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.trending-secondary-grid {
+    display: flex;
+    gap: 15px;
+    padding: 25px; /* Aumentato per più spazio interno */
+}
+
+.trending-secondary {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.trending-more {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.trending-info {
+    padding: 25px; /* Aumentato per più spazio interno */
+}
+
+.trending-info h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Top Creators Section */
+.creators {
+    padding: 80px 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+}
+
+.creators-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.creators-header-left {
+    flex: 1;
+    min-width: 200px;
+}
+
+.rankings-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 30px;
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.rankings-btn img {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.creators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Aumentato minmax */
+    gap: 50px; /* Aumentato per distanziare */
+}
+
+.creator-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    padding: 25px; /* Aumentato per più spazio interno */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.creator-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 24px;
+    height: 24px;
+    background-color: var(--background-dark);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.creator-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+}
+
+.creator-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.creator-sales {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+}
+
+.creator-sales-label {
+    color: var(--text-secondary);
+}
+
+.creator-sales-value {
+    font-family: 'Space Mono', monospace;
+}
+
+/* Categories Section */
+.categories {
+    padding: 80px 60px; /* Invariato */
+    background-color: var(--background-dark);
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 50px;
+}
+
+.category-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease; /* Per l'effetto hover già definito */
+}
+
+.category-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(5px); /* Sfocatura dell'immagine di sfondo */
+    transition: filter 0.3s ease;
+}
+
+.category-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background-color: rgba(162, 89, 255, 0.2); /* Usa --primary con opacità per coerenza */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombra per risalto */
+    transition: transform 0.3s ease;
+}
+
+.category-icon img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    filter: none; /* Assicura che l'icona non sia sfocata */
+}
+
+.category-name {
+    padding: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-light);
+}
+
+/* Discover NFTs Section */
+.discover {
+    padding: 80px 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+}
+
+.discover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.see-all-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 30px;
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.see-all-btn img {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.nft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+}
+
+.nft-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.nft-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.nft-info {
+    padding: 25px; /* Aumentato per più spazio interno */
+}
+
+.nft-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.nft-creator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.nft-creator img {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.nft-creator span {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+}
+
+.nft-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nft-price, .nft-bid {
+    display: flex;
+    flex-direction: column;
+}
+
+.nft-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.nft-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+}
+
+/* Highlight NFT Section */
+.highlight {
+    min-height: 400px;
+    background: linear-gradient(180deg, rgba(162, 89, 255, 0) 0%, var(--primary) 100%);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 60px; /* Aumentato per desktop */
+}
+
+.highlight-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+}
+
+.highlight-info {
+    flex: 1;
+    min-width: 250px;
+}
+
+.highlight-creator {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--card-background);
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.highlight-creator img {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.highlight-title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.see-nft-btn {
+    background-color: var(--text-light);
+    color: var(--background-dark);
+    border-radius: 20px;
+    padding: 12px 30px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.see-nft-btn img {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.auction-timer {
+    background-color: rgba(59, 59, 59, 0.5);
+    border-radius: 20px;
+    padding: 25px;
+    min-width: 200px;
+}
+
+.auction-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.auction-countdown {
+    display: flex;
+    align-items: center;
+}
+
+.auction-unit {
+    text-align: left;
+    margin-right: 10px;
+}
+
+.auction-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.auction-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+}
+
+.auction-separator {
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 5px;
+}
+
+/* How It Works Section */
+.how-it-works {
+    padding: 80px 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+}
+
+.step-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    padding: 25px; /* Aumentato per più spazio interno */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.step-icon {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+}
+
+.step-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.step-description {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Subscribe Section */
+.subscribe {
+    padding: 80px 60px; /* Aumentato per desktop */
+    background-color: var(--background-dark);
+}
+
+.subscribe-card {
+    background-color: var(--card-background);
+    border-radius: 20px;
+    padding: 40px; /* Aumentato per più spazio interno */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.subscribe-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.subscribe-content {
+    flex: 1;
+    min-width: 250px;
+}
+
+.subscribe-title {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.subscribe-description {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.subscribe-form {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 50px;
+}
+
+.subscribe-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+    padding: 0 15px;
+    font-size: 14px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.subscribe-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 20px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.subscribe-btn img {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--card-background);
+    padding: 80px 60px; /* Aumentato per desktop */
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.footer-info {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.footer-logo img:first-child {
+    margin-right: 10px;
+}
+
+.footer-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+}
+
+.footer-social img {
+    width: 24px;
+    height: 24px;
+}
+
+.footer-links h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer-subscribe {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-subscribe h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.footer-subscribe p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.footer-form {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 50px;
+}
+
+.footer-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+    padding: 0 15px;
+    font-size: 14px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.footer-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 20px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.footer-divider {
+    height: 1px;
+    background-color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.footer-copyright {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Hover Effects */
+.signup-btn:hover,
+.get-started-btn:hover,
+.rankings-btn:hover,
+.see-all-btn:hover,
+.see-nft-btn:hover,
+.subscribe-btn:hover,
+.footer-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.trending-card:hover,
+.creator-card:hover,
+.category-card:hover,
+.nft-card:hover,
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Countdown Animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.auction-number {
+    animation: pulse 1s infinite;
+}
+
+/* Honeycomb Logo Animation */
+@keyframes honeycomb {
+    0%, 20%, 80%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    30%, 70% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.honeycomb {
+    height: 20px;
+    position: relative;
+    width: 20px;
+    transform: scale(0.6);
+    transform-origin: center left;
+    margin-right: 1rem;
+}
+
+.honeycomb div {
+    animation: honeycomb 2.1s infinite backwards;
+    background: var(--primary);
+    height: 10px;
+    margin-top: 5px;
+    position: absolute;
+    width: 20px;
+}
+
+.honeycomb div::after,
+.honeycomb div::before {
+    content: '';
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.honeycomb div::after {
+    top: -5px;
+    border-bottom: 5px solid var(--primary);
+}
+
+.honeycomb div::before {
+    bottom: -5px;
+    border-top: 5px solid var(--primary);
+}
+
+.honeycomb div:nth-child(1) { animation-delay: 0s; left: -24px; top: 0; }
+.honeycomb div:nth-child(2) { animation-delay: 0.1s; left: -12px; top: 18px; }
+.honeycomb div:nth-child(3) { animation-delay: 0.2s; left: 12px; top: 18px; }
+.honeycomb div:nth-child(4) { animation-delay: 0.3s; left: 24px; top: 0; }
+.honeycomb div:nth-child(5) { animation-delay: 0.4s; left: 12px; top: -18px; }
+.honeycomb div:nth-child(6) { animation-delay: 0.5s; left: -12px; top: -18px; }
+.honeycomb div:nth-child(7) { animation-delay: 0.6s; left: 0; top: 0; }
+
+/* Promo Video */
+.promo-video {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.promo-video:fullscreen {
+    background: #000;
+    border-radius: 0;
+}
+
+/* Media Queries per responsività */
+
+/* Schermi molto grandi (min-width: 1440px) */
+@media (min-width: 1440px) {
+    .container {
+        padding: 0 100px; /* Margini ancora più ampi */
+    }
+
+    header, .hero, .trending, .creators, .categories, .discover, .highlight, .how-it-works, .subscribe, footer {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+
+    .trending-grid, .creators-grid, .categories-grid, .nft-grid, .steps-grid {
+        gap: 60px; /* Più spazio tra le carte */
+    }
+}
+
+/* Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 40px; /* Padding aumentato per tablet */
+    }
+
+    header {
+        height: auto;
+        flex-direction: column;
+        padding: 15px 40px;
+        gap: 10px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .signup-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .hero {
+        flex-direction: column;
+        padding: 40px 40px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .get-started-btn {
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+
+    .stats {
+        gap: 20px;
+    }
+
+    .stat h2 {
+        font-size: 20px;
+    }
+
+    .stat p {
+        font-size: 14px;
+    }
+
+    .hero-image {
+        width: 100%;
+    }
+
+    .hero-image-caption {
+        padding: 15px;
+    }
+
+    .trending {
+        padding: 40px 40px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .section-subtitle {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .trending-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+    }
+
+    .trending-primary {
+        height: 240px;
+    }
+
+    .trending-secondary,
+    .trending-more {
+        width: 60px;
+        height: 60px;
+        font-size: 16px;
+    }
+
+    .trending-secondary-grid {
+        padding: 15px;
+    }
+
+    .trending-info {
+        padding: 15px;
+    }
+
+    .creators {
+        padding: 40px 40px;
+    }
+
+    .creators-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 40px;
+    }
+
+    .creator-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .creator-name {
+        font-size: 16px;
+    }
+
+    .categories {
+        padding: 40px 40px;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 40px;
+    }
+
+    .category-image {
+        height: 180px;
+    }
+
+    .category-icon img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .category-name {
+        padding: 15px;
+    }
+
+    .discover {
+        padding: 40px 40px;
+    }
+
+    .nft-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+    }
+
+    .nft-image {
+        height: 180px;
+    }
+
+    .nft-info {
+        padding: 15px;
+    }
+
+    .highlight {
+        min-height: 300px;
+        padding: 40px;
+    }
+
+    .highlight-title {
+        font-size: 24px;
+    }
+
+    .how-it-works {
+        padding: 40px 40px;
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 40px;
+    }
+
+    .step-icon {
+        width: 120px;
+        height: 120px;
+    }
+
+    .step-card {
+        padding: 15px;
+    }
+
+    .subscribe {
+        padding: 40px 40px;
+    }
+
+    .subscribe-card {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .subscribe-image {
+        max-width: 100%;
+    }
+
+    .subscribe-form {
+        max-width: 100%;
+        height: 40px;
+    }
+
+    .subscribe-btn {
+        padding: 0 15px;
+        font-size: 12px;
+    }
+
+    footer {
+        padding: 40px 40px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .footer-form {
+        max-width: 100%;
+        height: 40px;
+    }
+
+    .footer-btn {
+        padding: 0 15px;
+        font-size: 12px;
+    }
+
+    .honeycomb {
+        height: 16px;
+        width: 16px;
+        transform: scale(0.5);
+    }
+
+    .honeycomb div {
+        height: 8px;
+        width: 16px;
+        margin-top: 4px;
+    }
+
+    .honeycomb div::after,
+    .honeycomb div::before {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+    }
+
+    .honeycomb div::after {
+        top: -4px;
+        border-bottom: 4px solid var(--primary);
+    }
+
+    .honeycomb div::before {
+        bottom: -4px;
+        border-top: 4px solid var(--primary);
+    }
+
+    .honeycomb div:nth-child(1) { left: -20px; top: 0; }
+    .honeycomb div:nth-child(2) { left: -10px; top: 14px; }
+    .honeycomb div:nth-child(3) { left: 10px; top: 14px; }
+    .honeycomb div:nth-child(4) { left: 20px; top: 0; }
+    .honeycomb div:nth-child(5) { left: 10px; top: -14px; }
+    .honeycomb div:nth-child(6) { left: -10px; top: -14px; }
+    .honeycomb div:nth-child(7) { left: 0; top: 0; }
+}
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 20px; /* Padding aumentato per mobile */
+    }
+
+    header {
+        padding: 10px 20px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    .signup-btn {
+        padding: 8px 12px;
+        font-size: 10px;
+    }
+
+    .hero {
+        padding: 20px 20px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .get-started-btn {
+        padding: 8px 15px;
+        font-size: 10px;
+    }
+
+    .stats {
+        gap: 15px;
+    }
+
+    .stat h2 {
+        font-size: 18px;
+    }
+
+    .stat p {
+        font-size: 12px;
+    }
+
+    .trending {
+        padding: 20px 20px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .section-subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .trending-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .trending-primary {
+        height: 200px;
+    }
+
+    .trending-secondary,
+    .trending-more {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .creators {
+        padding: 20px 20px;
+    }
+
+    .creators-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .categories {
+        padding: 20px 20px;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .discover {
+        padding: 20px 20px;
+    }
+
+    .nft-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .highlight {
+        padding: 20px 20px;
+    }
+
+    .highlight-title {
+        font-size: 20px;
+    }
+
+    .auction-number {
+        font-size: 24px;
+    }
+
+    .auction-separator {
+        font-size: 20px;
+    }
+
+    .how-it-works {
+        padding: 20px 20px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .step-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .subscribe {
+        padding: 20px 20px;
+    }
+
+    .subscribe-card {
+        padding: 15px;
+    }
+
+    .subscribe-title {
+        font-size: 24px;
+    }
+
+    .subscribe-description {
+        font-size: 14px;
+    }
+
+    footer {
+        padding: 20px 20px;
+    }
+
+    .footer-links a {
+        font-size: 12px;
+    }
+
+    .footer-subscribe h3 {
+        font-size: 16px;
+    }
+}
